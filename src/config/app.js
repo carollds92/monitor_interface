@@ -6,6 +6,6 @@ export default {
   */
   // Returns the test api url
   getApiURL () {
-    return 'http://jwt.api/api/'
+    return 'http://localhost:3000/'
   }
 }
