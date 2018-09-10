@@ -5,7 +5,7 @@ export default {
   name: 'login',
   data () {
     return {
-      email: '',
+      login: '',
       password: '',
       snackBar: {
         vertical: 'top',
@@ -17,10 +17,9 @@ export default {
   methods: {
     loginHandler: function () {
       let credentials = {
-        email: this.email,
+        email: this.login,
         password: this.password
       }
-      console.log(credentials)
       Auth.login(this, credentials)
     },
     openSnack: function (error) {
@@ -39,11 +38,11 @@ export default {
   <div class="login-wrapper">
     
     <div class="login-box">
-      <h1> Login</h1>
+      <h1> Monitor App</h1>
       <div class="login-form">
         <md-input-container>
-          <label>Email</label>
-          <md-input v-model="email" type="email"></md-input>
+          <label>Login</label>
+          <md-input v-model="login" type="text"></md-input>
         </md-input-container>
         <md-input-container md-has-password>
           <label>Senha</label>
