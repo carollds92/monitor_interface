@@ -44,13 +44,9 @@ export default {
           <md-list-item>
             <md-icon>home</md-icon> <a class='link-primary' href="#/">Home</a>
           </md-list-item>
-
+          
           <md-list-item>
-            <md-icon>timeline</md-icon> <a class='link-primary' href="#/charts">Gráficos de Batimentos</a>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>add_box</md-icon> <a class='link-primary' href="#/patient">Cadastro de Pacientes</a>
+            <md-icon>add_box</md-icon> <a class='link-primary' href="#/patient">Gerenciar Pacientes</a>
           </md-list-item>
 
           <md-list-item>
