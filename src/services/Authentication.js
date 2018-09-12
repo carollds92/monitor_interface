@@ -19,5 +19,18 @@ export default {
   logout () {
     localStorage.removeItem('auth')
     location.href = '#/login'
+  },
+  signup (instance, credentials) {
+    axios.post(API_URL + 'auth/signup/', credentials).then((response) => {
+      if (response.status === 201) {
+        localStorage.setItem('auth', JSON.stringify(response.data))
+        instance.$router.push('/')
+      }
+    }).catch(error => {
+      if (error.response.data === 'duplicate_login') {
+        instance.openSnack('Login ja em cadastrado')
+      }
+      console.log(error.response.data)
+    })
   }
 }
