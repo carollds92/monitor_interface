@@ -43,7 +43,7 @@ export default {
 <template>
   <div class="wrapper">
     <Navigation></Navigation>
-      <a class='link-primary' href="#/patient"><md-icon class="md-size-4x arrow-color">navigate_before</md-icon> </a>
+      <md-button class="md-icon-button md-primary sizeble" href="#/patient"><md-icon class="md-size-4x">navigate_before</md-icon></md-button>
     <div class="wrapper-form">
     
     <div class="box">
@@ -93,6 +93,10 @@ export default {
 </template>
 <style lang="sass" scoped>
 $main-bg: #ecf0f1;
+
+.sizeble
+  width: 128px
+  height: 128px
 
 .arrow-color
   color: #C6D4D8
