@@ -6,6 +6,7 @@ import Singup from '@/components/Auth/Singup'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Charts from '@/components/dashboard/Charts'
 import NewPatient from '@/components/dashboard/NewPatient'
+import Patient from '@/components/dashboard/Patient'
 import Profile from '@/components/dashboard/Profile'
 
 Vue.use(Router)
@@ -25,9 +26,15 @@ export default new Router({
       meta: {requiresAuth: true}
     },
     {
+      path: '/new-patient',
+      name: 'new-patient',
+      component: NewPatient,
+      meta: {requiresAuth: true}
+    },
+    {
       path: '/patient',
       name: 'patient',
-      component: NewPatient,
+      component: Patient,
       meta: {requiresAuth: true}
     },
     {
