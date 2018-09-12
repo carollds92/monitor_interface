@@ -4,11 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
+import VueSweetalert2 from 'vue-sweetalert2'
 import 'vue-material/dist/vue-material.css'
 import Auth from './services/Authentication'
 
 Vue.config.productionTip = false
+
+Vue.use(VueSweetalert2)
 Vue.use(VueMaterial)
+
 Vue.material.registerTheme('default', {
   primary: {
     color: 'blue',
