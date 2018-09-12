@@ -5,8 +5,10 @@ export default {
   name: 'singup',
   data () {
     return {
-      name: '',
+      first_name: '',
+      last_name: '',
       email: '',
+      login: '',
       password: '',
       snackBar: {
         vertical: 'top',
@@ -18,10 +20,13 @@ export default {
   methods: {
     sinupHandler: function () {
       let credentials = {
+        first_name: this.first_name,
+        last_name: this.last_name,
         email: this.email,
+        login: this.login,
         password: this.password
       }
-      Auth.login(this, credentials)
+      Auth.signup(this, credentials)
     },
     openSnack: function (error) {
       this.$refs.snackbar.open(error)
@@ -41,24 +46,37 @@ export default {
     <div class="login-box">
       <h1>Criar Conta</h1>
       <div class="login-form">
+
         <md-input-container>
           <label>Nome</label>
-          <md-input v-model="name" type="name"></md-input>
+          <md-input v-model="first_name" type="name"></md-input>
         </md-input-container>
+
+        <md-input-container>
+          <label>Sobrenome</label>
+          <md-input v-model="last_name" type="name"></md-input>
+        </md-input-container>
+        
         <md-input-container>
           <label>Email</label>
           <md-input v-model="email" type="email"></md-input>
         </md-input-container>
+
+        <md-input-container>
+          <label>Login</label>
+          <md-input v-model="login" type="name"></md-input>
+        </md-input-container>
+
         <md-input-container md-has-password>
           <label>Senha</label>
           <md-input v-model="password" type="password" ></md-input>
         </md-input-container>
+
       </div>
 
       <div class="login-controls">
         <md-button class="md-raised md-primary" v-on:click="sinupHandler">Cadastrar</md-button>
-        <a class='link-primary' href="#">Ja possui uma conta?</a>
-        <a class='link-primary' href="#">Esqueceu sua senha? </a>
+        <a class='link-primary' href="#/login">Ja possui uma conta?</a>
       </div>
 
     </div>
@@ -94,7 +112,6 @@ $main-bg: #EEF3FE
 
 .login-form 
   width: 350px
-  height: 150px
   font-family: 'Quicksand', sans-serif
   font-weight: 200
 
