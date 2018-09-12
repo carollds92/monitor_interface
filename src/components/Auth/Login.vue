@@ -53,7 +53,6 @@ export default {
       <div class="login-controls">
         <md-button class="md-raised md-primary" v-on:click="loginHandler">Entrar</md-button>
         <a class='link-primary' href="#/singup/">Cadastre-se</a>
-        <a class='link-primary' href="#">Problemas ao logar?</a>
       </div>
 
     </div>
@@ -89,7 +88,6 @@ $main-bg: #EEF3FE
 
 .login-form 
   width: 350px
-  height: 150px
   font-family: 'Quicksand', sans-serif
   font-weight: 200
 
