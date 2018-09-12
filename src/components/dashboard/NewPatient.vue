@@ -3,8 +3,6 @@ import Navigation from './Navigation.vue'
 import config from '../../config/app'
 import axios from 'axios'
 const API_URL = config.getApiURL()
-const API_TOKEN = config.getApiToken()
-
 export default {
   name: 'newPatient',
   components: {
@@ -30,6 +28,7 @@ export default {
         weight: this.weight,
         medicines: this.medicines
       }
+      let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
       axios.post(API_URL + 'patient/', data, API_TOKEN).then((response) => {
         if (response.status === 200) {
           this.$router.push('/patient')

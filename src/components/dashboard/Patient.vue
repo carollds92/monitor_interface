@@ -2,9 +2,8 @@
 import Navigation from './Navigation.vue'
 import axios from 'axios'
 import config from '../../config/app'
-
 const API_URL = config.getApiURL()
-const API_TOKEN = config.getApiToken()
+
 export default {
   name: 'patient',
   components: {
@@ -27,6 +26,7 @@ export default {
         confirmButtonText: 'Sim, remover!'
       }).then((result) => {
         if (result.value) {
+          let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
           axios.delete(API_URL + 'patient/' + id, API_TOKEN).then(response => {
             if (response.status === 200) {
               this.patientList = this.patientList.filter(item => item._id !== response.data._id)
@@ -44,6 +44,7 @@ export default {
     }
   },
   mounted () {
+    let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
     axios.get(API_URL + 'patient/', API_TOKEN).then(response => {
       if (response.status === 200) {
         this.patientList = response.data
