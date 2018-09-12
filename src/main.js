@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
 import VueSweetalert2 from 'vue-sweetalert2'
+import VueGoogleCharts from 'vue-google-charts'
+
 import 'vue-material/dist/vue-material.css'
 import Auth from './services/Authentication'
 
 Vue.config.productionTip = false
 
+Vue.use(VueGoogleCharts)
 Vue.use(VueSweetalert2)
 Vue.use(VueMaterial)
 
