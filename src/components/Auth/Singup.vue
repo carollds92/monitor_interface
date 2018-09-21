@@ -89,7 +89,6 @@ $main-bg: #EEF3FE
 
 .login-wrapper 
   background: $main-bg
-  height: 100vh
   display: flex
   flex-flow: column wrap
   justify-content: center
