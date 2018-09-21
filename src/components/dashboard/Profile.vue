@@ -109,12 +109,10 @@ $main-bg: #ecf0f1
 
 .wrapper
   background: $main-bg
-  height: 100vh
 
 
 .login-wrapper 
   background: $main-bg
-  height: 100vh
   display: flex
   flex-flow: column wrap
   justify-content: center
