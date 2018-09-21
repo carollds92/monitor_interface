@@ -6,7 +6,7 @@ export default {
   */
   // Returns the test api url
   getApiURL () {
-    return 'https://monitorv1-api.herokuapp.com/'
-    // return 'http://localhost:3000/'
+    // return 'https://monitorv1-api.herokuapp.com/'
+    return 'http://localhost:3000/'
   }
 }
