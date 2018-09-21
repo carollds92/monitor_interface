@@ -36,12 +36,14 @@ export default {
   },
   mounted () {
     let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
-    axios.get(API_URL + 'patient/', API_TOKEN).then(response => {
+    let _user = JSON.parse(localStorage.getItem('auth')).user._id
+    axios.get(API_URL + 'patient/doctor/' + _user, API_TOKEN).then(response => {
       if (response.status === 200) {
         this.patientList = response.data
       }
+      this.patientData._user = JSON.parse(localStorage.getItem('auth')).user._id
     }).catch(error => {
-      console.log(error.response.data)
+      console.log(error.response)
     })
   },
   methods: {
