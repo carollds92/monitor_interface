@@ -17,7 +17,7 @@ export default {
   methods: {
     loginHandler: function () {
       let credentials = {
-        email: this.login,
+        login: this.login,
         password: this.password
       }
       Auth.login(this, credentials)
@@ -65,7 +65,6 @@ $main-bg: #EEF3FE
 
 .login-wrapper 
   background: $main-bg
-  height: 100vh
   display: flex
   flex-flow: column wrap
   justify-content: center
@@ -73,6 +72,7 @@ $main-bg: #EEF3FE
 
 
 .login-box
+  margin-top: 10rem
   padding: 5rem
   border: 1px solid rgba(0, 0, 0, 0.1)
   border-radius: 15px
