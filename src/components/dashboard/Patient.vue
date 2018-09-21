@@ -12,18 +12,63 @@ export default {
   data () {
     return {
       patientList: null,
-      patientEdit: {
+      patientData: {
         _id: '',
+        _user: '',
         first_name: '',
         last_name: '',
         email: '',
         age: '',
         weight: '',
         medicines: ''
-      }
+      },
+      modalTitle: '',
+      modalState: ''
     }
   },
   methods: {
+    modalActionHandller: function (action, id) {
+      if (action === 'modal_edit') {
+        this.modalTitle = 'Editar Paciente'
+        this.modalState = 'ed'
+        this.editHandller(id)
+      } else {
+        this.modalTitle = 'Novo Paciente'
+        this.modalState = 'sv'
+        this.resetPatientInfo()
+        this.openDialog('modalAction')
+      }
+    },
+    newPatientHandller: function () {
+      delete this.patientData['_id']
+      let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
+      axios.post(API_URL + 'patient/', this.patientData, API_TOKEN).then((response) => {
+        if (response.status === 200) {
+          axios.get(API_URL + 'patient/doctor/' + this.patientData._user, API_TOKEN)
+            .then(response => { this.patientList = response.data })
+            .then(() => {
+              this.$swal(
+                'Salvo!',
+                'O paciente foi salvo da base de Dados.',
+                'success'
+              ).then(() => {
+                this.closeDialog('modalAction')
+              })
+            }).catch(err => {
+              this.$swal(
+                'Erro!',
+                'Ocorreu um erro.',
+                'error'
+              ).then(() => {
+                this.closeDialog('modalAction')
+              })
+              console.log(err)
+            })
+        }
+      }).catch(error => {
+        console.log(error.response.data)
+      })
+    },
     removeHandller: function (id) {
       this.$swal({
         title: 'Você tem certeza?',
@@ -38,37 +83,32 @@ export default {
           let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
           axios.delete(API_URL + 'patient/' + id, API_TOKEN).then(response => {
             if (response.status === 200) {
-              axios.get(API_URL + 'patient/', API_TOKEN).then(response => { this.patientList = response.data })
-              this.$swal(
-                'Excluido!',
-                'O paciente foi removido da base de Dados.',
-                'success'
-              )
+              axios.get(API_URL + 'patient/doctor/' + this.patientData._user, API_TOKEN)
+                .then(response => { this.patientList = response.data })
+                .then(() => {
+                  this.$swal(
+                    'Excluido!',
+                    'O paciente foi removido da base de Dados.',
+                    'success'
+                  ).then(() => {
+                    this.closeDialog('modalAction')
+                  })
+                }).catch(err => {
+                  this.$swal(
+                    'Erro!',
+                    'Ocorreu um erro.',
+                    'error'
+                  ).then(() => {
+                    this.closeDialog('modalAction')
+                  })
+                  console.log(err)
+                })
             }
           }).catch(error => {
             console.log(error.response.data)
           })
         }
       })
-    },
-    openDialog (ref) {
-      this.$refs[ref].open()
-    },
-    closeDialog (ref) {
-      this.$refs[ref].close()
-    },
-    editClickHandller: function (id) {
-      let el = this.patientList.find(item => {
-        return item._id === id
-      })
-      this.patientEdit._id = el._id
-      this.patientEdit.first_name = el.first_name
-      this.patientEdit.last_name = el.last_name
-      this.patientEdit.email = el.email
-      this.patientEdit.age = el.age
-      this.patientEdit.weight = el.weight
-      this.patientEdit.medicines = el.medicines
-      this.openDialog('modal_edit')
     },
     saveEdited () {
       this.$swal({
@@ -82,30 +122,76 @@ export default {
       }).then((result) => {
         if (result.value) {
           let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
-          axios.put(API_URL + 'patient/' + this.patientEdit._id, this.patientEdit, API_TOKEN).then(response => {
+          axios.put(API_URL + 'patient/' + this.patientData._id, this.patientData, API_TOKEN).then(response => {
             if (response.status === 200) {
-              axios.get(API_URL + 'patient/', API_TOKEN).then(response => { this.patientList = response.data })
-              this.$swal(
-                'Sucesso!',
-                'O paciente foi editado.',
-                'success'
-              )
+              axios.get(API_URL + 'patient/doctor/' + this.patientData._user, API_TOKEN)
+                .then(response => {
+                  this.patientList = response.data
+                  console.log(response.data)
+                }).then(() => {
+                  this.$swal(
+                    'Sucesso!',
+                    'O paciente foi editado.',
+                    'success'
+                  ).then(() => {
+                    this.closeDialog('modalAction')
+                  })
+                }).catch((err) => {
+                  this.$swal(
+                    'Erro!',
+                    'Ocorreu um erro.',
+                    'error'
+                  ).then(() => {
+                    this.closeDialog('modalAction')
+                  })
+                  console.log(err)
+                })
             }
           }).catch(error => {
             console.log(error.response.data)
           })
         }
       })
+    },
+    openDialog (ref) {
+      this.$refs[ref].open()
+    },
+    closeDialog (ref) {
+      this.$refs[ref].close()
+    },
+    editHandller: function (id) {
+      let el = this.patientList.find(item => {
+        return item._id === id
+      })
+      this.patientData._id = el._id
+      this.patientData.first_name = el.first_name
+      this.patientData.last_name = el.last_name
+      this.patientData.email = el.email
+      this.patientData.age = el.age
+      this.patientData.weight = el.weight
+      this.patientData.medicines = el.medicines
+      this.openDialog('modalAction')
+    },
+    resetPatientInfo () {
+      this.patientData._id = ''
+      this.patientData.first_name = ''
+      this.patientData.last_name = ''
+      this.patientData.email = ''
+      this.patientData.age = ''
+      this.patientData.weight = ''
+      this.patientData.medicines = ''
     }
   },
   mounted () {
     let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
-    axios.get(API_URL + 'patient/', API_TOKEN).then(response => {
+    let _user = JSON.parse(localStorage.getItem('auth')).user._id
+    axios.get(API_URL + 'patient/doctor/' + _user, API_TOKEN).then(response => {
       if (response.status === 200) {
         this.patientList = response.data
       }
+      this.patientData._user = JSON.parse(localStorage.getItem('auth')).user._id
     }).catch(error => {
-      console.log(error.response.data)
+      console.log(error.response)
     })
   }
 }
@@ -114,8 +200,8 @@ export default {
   <div class="wrapper">
     <Navigation></Navigation>
 
-    <md-dialog  ref="modal_edit">
-      <md-dialog-title>Editar Paciente</md-dialog-title>
+    <md-dialog  ref="modalAction">
+      <md-dialog-title>{{this.modalTitle}}</md-dialog-title>
         
         <div class="wrapper-form">
           <div class="box">
@@ -123,32 +209,32 @@ export default {
 
               <md-input-container>
                 <label>Nome</label>
-                <md-input v-model="patientEdit.first_name" type="name"></md-input>
+                <md-input v-model="patientData.first_name" type="name"></md-input>
               </md-input-container>
 
               <md-input-container>
                 <label>Sobrenome</label>
-                <md-input v-model="patientEdit.last_name" type="name"></md-input>
+                <md-input v-model="patientData.last_name" type="name"></md-input>
               </md-input-container>
               
               <md-input-container>
                 <label>Email</label>
-                <md-input v-model="patientEdit.email" type="email"></md-input>
+                <md-input v-model="patientData.email" type="email"></md-input>
               </md-input-container>
 
               <md-input-container>
                 <label>Idade</label>
-                <md-input v-model="patientEdit.age" type="text"></md-input>
+                <md-input v-model="patientData.age" type="text"></md-input>
               </md-input-container>
 
               <md-input-container>
                 <label>Peso</label>
-                <md-input v-model="patientEdit.weight" type="text"></md-input>
+                <md-input v-model="patientData.weight" type="text"></md-input>
               </md-input-container>
 
               <md-input-container>
                 <label>Medicamentos</label>
-                <md-textarea v-model="patientEdit.medicines"></md-textarea>
+                <md-textarea v-model="patientData.medicines"></md-textarea>
               </md-input-container>
 
             </div>
@@ -156,8 +242,9 @@ export default {
         </div>
 
       <md-dialog-actions>
-        <md-button class="md-primary" @click="closeDialog('modal_edit')">Fechar</md-button>
-        <md-button class="md-primary" @click="saveEdited()">Salvar</md-button>
+        <md-button class="md-primary" @click="closeDialog('modalAction')">Fechar</md-button>
+        <md-button v-if="this.modalState === 'ed'" class="md-primary" @click="saveEdited()">Salvar</md-button>
+        <md-button v-if="this.modalState === 'sv'" class="md-primary" @click="newPatientHandller()">Salvar</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -165,7 +252,7 @@ export default {
       <md-table class="table-color" md-card>
         <md-toolbar>
           <h1 class="md-title">Pacientes</h1>
-          <md-button class="md-icon-button md-primary" href="#/new-patient"><md-icon >add_circle</md-icon></md-button>
+          <md-button class="md-icon-button md-primary" @click="modalActionHandller('save')"><md-icon >add_circle</md-icon></md-button>
         </md-toolbar>
         
         <md-table-row>
@@ -187,7 +274,7 @@ export default {
           <md-table-cell md-label="weight">{{patient.weight}}</md-table-cell>
           <md-table-cell md-label="">{{patient.medicines}}</md-table-cell>
           <md-table-cell><md-button class="md-icon-button md-primary" v-on:click="removeHandller(patient._id)"><md-icon >clear</md-icon></md-button></md-table-cell>
-          <md-table-cell><md-button class="md-icon-button md-primary" v-on:click="editClickHandller(patient._id)"><md-icon >create</md-icon></md-button></md-table-cell>
+          <md-table-cell><md-button class="md-icon-button md-primary" v-on:click="modalActionHandller('modal_edit', patient._id)"><md-icon >create</md-icon></md-button></md-table-cell>
 
         </md-table-row>
       </md-table>
