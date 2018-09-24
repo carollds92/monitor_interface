@@ -3,8 +3,7 @@ import Router from 'vue-router'
 
 import Login from '@/components/Auth/Login'
 import Singup from '@/components/Auth/Singup'
-import Charts from '@/components/dashboard/Charts'
-import Patient from '@/components/dashboard/Patient'
+import Home from '@/components/dashboard/Home'
 import Profile from '@/components/dashboard/Profile'
 
 Vue.use(Router)
@@ -14,13 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'dashboard',
-      component: Charts,
-      meta: {requiresAuth: true}
-    },
-    {
-      path: '/patient',
-      name: 'patient',
-      component: Patient,
+      component: Home,
       meta: {requiresAuth: true}
     },
     {

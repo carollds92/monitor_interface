@@ -1,11 +1,8 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
 import VueSweetalert2 from 'vue-sweetalert2'
-import VueGoogleCharts from 'vue-google-charts'
 import axios from 'axios'
 import config from './config/app'
 const API_URL = config.getApiURL()
@@ -15,7 +12,6 @@ import Auth from './services/Authentication'
 
 Vue.config.productionTip = false
 
-Vue.use(VueGoogleCharts)
 Vue.use(VueSweetalert2)
 Vue.use(VueMaterial)
 
