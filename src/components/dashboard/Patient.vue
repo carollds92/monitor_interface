@@ -20,6 +20,7 @@ export default {
         email: '',
         age: '',
         weight: '',
+        sensor: '',
         medicines: ''
       },
       modalTitle: '',
@@ -169,6 +170,7 @@ export default {
       this.patientData.email = el.email
       this.patientData.age = el.age
       this.patientData.weight = el.weight
+      this.patientData.sensor = el.sensor
       this.patientData.medicines = el.medicines
       this.openDialog('modalAction')
     },
@@ -179,6 +181,7 @@ export default {
       this.patientData.email = ''
       this.patientData.age = ''
       this.patientData.weight = ''
+      this.patientData.sensor = ''
       this.patientData.medicines = ''
     }
   },
@@ -200,7 +203,7 @@ export default {
   <div class="wrapper">
     <Navigation></Navigation>
 
-    <md-dialog  ref="modalAction">
+    <md-dialog ref="modalAction">
       <md-dialog-title>{{this.modalTitle}}</md-dialog-title>
         
         <div class="wrapper-form">
@@ -233,6 +236,11 @@ export default {
               </md-input-container>
 
               <md-input-container>
+                <label>Monitor ID</label>
+                <md-input v-model="patientData.sensor" type="text"></md-input>
+              </md-input-container>
+
+              <md-input-container>
                 <label>Medicamentos</label>
                 <md-textarea v-model="patientData.medicines"></md-textarea>
               </md-input-container>
@@ -261,6 +269,7 @@ export default {
           <md-table-head>Email</md-table-head>
           <md-table-head>Idade</md-table-head>
           <md-table-head>Peso</md-table-head>
+          <md-table-head>Monitor ID</md-table-head>
           <md-table-head>Medicamentos</md-table-head>
           <md-table-head>Remover</md-table-head>
           <md-table-head>Editar</md-table-head>
@@ -272,6 +281,7 @@ export default {
           <md-table-cell md-label="email" md-sort-by="email">{{patient.email}}</md-table-cell>
           <md-table-cell md-label="age">{{patient.age}}</md-table-cell>
           <md-table-cell md-label="weight">{{patient.weight}}</md-table-cell>
+          <md-table-cell md-label="weight">{{patient.sensor}}</md-table-cell>
           <md-table-cell md-label="">{{patient.medicines}}</md-table-cell>
           <md-table-cell><md-button class="md-icon-button md-primary" v-on:click="removeHandller(patient._id)"><md-icon >clear</md-icon></md-button></md-table-cell>
           <md-table-cell><md-button class="md-icon-button md-primary" v-on:click="modalActionHandller('modal_edit', patient._id)"><md-icon >create</md-icon></md-button></md-table-cell>
@@ -291,12 +301,10 @@ $main-bg: #ecf0f1
   font-weight: 200
 
 .wrapper-form 
-  height: 100vh
   display: flex
   flex-flow: column wrap
   justify-content: center
   align-items: center
-
 
 .box
   padding: 5rem
