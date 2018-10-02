@@ -10,4 +10,7 @@ export default {
 }
 </script>
 <style>
+.md-dialog {
+  max-height: 95%;
+}
 </style>
