@@ -55,15 +55,7 @@ export default {
       this.openDialog('modal_patient')
     },
     openDialog (ref) {
-      if (this.chartData !== null) {
-        this.$refs[ref].open()
-      } else {
-        this.$swal(
-              'Ops!',
-              'O paciente ainda não tem dados coletados.',
-              'warning'
-            )
-      }
+      this.$refs[ref].open()
     },
     closeDialog (ref) {
       this.$refs[ref].close()
