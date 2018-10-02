@@ -38,21 +38,25 @@ export default {
     })
   },
   methods: {
-    chartHandller: function (sensor) {
+    chartHandller (sensor) {
       let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
       axios.get(API_URL + 'patient/monitor/' + sensor, API_TOKEN).then(response => {
-        if (response.data) {
+        if (response.data.length !== 0) {
           this.chartData = [['N', 'BPM']]
           response.data.forEach((e, i) => {
             this.chartData.push([i, e.bpm])
           })
-          console.log(this.chartData)
+          this.openDialog('modal_patient')
+        } else {
+          this.$swal({
+            title: 'Ops!',
+            text: 'Este paciente ainda não esta usando o monitor',
+            type: 'warning'
+          })
         }
       }).catch(error => {
         console.log(error.response)
       })
-
-      this.openDialog('modal_patient')
     },
     openDialog (ref) {
       this.$refs[ref].open()
