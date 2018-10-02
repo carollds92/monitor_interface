@@ -242,9 +242,13 @@ export default {
 
               <md-input-container>
                 <label>Medicamentos</label>
-                <md-textarea v-model="patientData.medicines"></md-textarea>
+                <md-select name="option=" id="option=" multiple v-model="patientData.medicines">
+                  <md-option value="Beta-Bloqueadores">Beta-Bloqueadores</md-option>
+                  <md-option value="Anticoagulantes">Anticoagulantes</md-option>
+                  <md-option value="Térmogenicos">Térmogenicos</md-option>
+                  <md-option value="Corticoides">Corticoides</md-option>
+                </md-select>
               </md-input-container>
-
             </div>
           </div>
         </div>
