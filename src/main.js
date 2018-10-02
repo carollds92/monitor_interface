@@ -28,7 +28,11 @@ Vue.material.registerTheme('default', {
 
 try {
   let API_TOKEN = { headers: {'Authorization': JSON.parse(localStorage.getItem('auth')).token.type_token + ' ' + JSON.parse(localStorage.getItem('auth')).token.acess_token} }
-  axios.get(API_URL + 'patient/', API_TOKEN).then()
+  axios.get(API_URL + 'patient/', API_TOKEN).then(r => {
+  }).catch(err => {
+    Auth.logout()
+    console.log(err)
+  })
 } catch (error) {
   Auth.logout()
 }
